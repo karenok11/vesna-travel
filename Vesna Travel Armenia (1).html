@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f766e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Vesna Travel">
+    <meta name="format-detection" content="telephone=no">
+    <title>Vesna Travel — Туры, Квартиры и Трансферы в Армении (Web Portal)</title>
+
+    <!-- Crisp Embedded SVG Favicon & Apple Touch Icon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2310b981'/%3E%3Cstop offset='100%25' stop-color='%23064e3b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M12 46L26 20l10 16 6-9 10 19H12z' fill='%23ffffff'/%3E%3Ccircle cx='46' cy='18' r='5' fill='%23fbbf24'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23047857'/%3E%3Cpath d='M32 130L74 56l28 45 18-26 28 55H32z' fill='%23ffffff'/%3E%3Ccircle cx='130' cy='50' r='14' fill='%23fbbf24'/%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        vesna: {
+                            50: '#f0fdf6',
+                            100: '#dcfce9',
+                            200: '#bbf7d4',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#0f766e',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        terracotta: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#ea580c',
+                            600: '#c2410c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        body {
+            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Universal SVG & Lucide Icon Scaling Protection */
+        svg, i[data-lucide], .lucide {
+            flex-shrink: 0 !important;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        /* Touch target & iOS Auto-Zoom prevention on mobile devices */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+            .touch-target {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        .hero-bg {
+            background-image: linear-gradient(115deg, rgba(6, 78, 59, 0.88) 0%, rgba(15, 23, 42, 0.70) 55%, rgba(194, 65, 12, 0.48) 100%), 
+                              url('https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=2000&q=85');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-hover {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @media (hover: hover) {
+            .card-hover:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 22px 30px -10px rgba(6, 78, 59, 0.14), 0 8px 12px -6px rgba(0, 0, 0, 0.05);
+            }
+        }
+        .safe-bottom-float {
+            bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-vesna-600 selection:text-white">
+
+    <!-- Top Utility Bar (Desktop & Mobile Adaptive) -->
+    <div class="bg-vesna-900 text-emerald-50 text-xs py-2 px-3 sm:px-4 border-b border-vesna-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-3 sm:space-x-5 min-w-0">
+                <span class="flex items-center gap-1.5 font-medium truncate">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0"></i>
+                    <span data-i18n="top_address" class="truncate">Ереван, Северный пр., 10</span>
+                </span>
+                <a href="tel:+37410555777" class="hidden md:flex items-center gap-1.5 hover:text-white transition font-semibold shrink-0">
+                    <i data-lucide="phone-call" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0"></i>
+                    <span>+374 (10) 55-57-77 (24/7)</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-3 ml-auto shrink-0">
+                <span class="hidden lg:inline-flex items-center gap-1.5 bg-vesna-800/90 border border-emerald-500/30 text-emerald-200 px-2.5 py-0.5 rounded-full">
+                    <i data-lucide="tag" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+                    <span data-i18n="top_promo">Промокод VESNA10 — скидка 10% онлайн!</span>
+                </span>
+                <div class="flex items-center space-x-2.5">
+                    <a href="https://wa.me/37410555777" target="_blank" rel="noopener" class="hover:text-emerald-300 transition flex items-center gap-1 font-medium py-0.5">
+                        <i data-lucide="message-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <span class="text-vesna-700">|</span>
+                    <a href="https://t.me/vesnatravel" target="_blank" rel="noopener" class="hover:text-emerald-300 transition flex items-center gap-1 font-medium py-0.5">
+                        <i data-lucide="send" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0"></i>
+                        <span>Telegram</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Web Header (Compact & Overflow-Free on 320px-430px Mobile) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-vesna-600 via-vesna-700 to-vesna-900 flex items-center justify-center text-white shadow-md shadow-vesna-600/25 group-hover:scale-105 transition relative shrink-0">
+                    <i data-lucide="mountain-snow" class="w-5 h-5 sm:w-6 sm:h-6 shrink-0"></i>
+                    <span class="absolute -top-1 -right-1 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-amber-400 border-2 border-white"></span>
+                </div>
+                <div class="truncate">
+                    <div class="flex items-center gap-1 sm:gap-1.5">
+                        <span class="font-serif text-lg sm:text-2xl font-bold tracking-tight text-slate-900">VESNA</span>
+                        <span class="text-[9px] sm:text-[11px] font-extrabold uppercase tracking-widest px-1.5 sm:px-2 py-0.5 rounded-md bg-emerald-100 text-vesna-800">Travel</span>
+                    </div>
+                    <p class="hidden sm:block text-[11px] text-slate-500 font-medium tracking-wide truncate" data-i18n="brand_subtitle">Armenia Tours, Apartments & Transfers</p>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden xl:flex items-center space-x-6 text-sm font-semibold text-slate-700 shrink-0">
+                <a href="#tours" class="hover:text-vesna-600 transition py-2 flex items-center gap-1" data-i18n="nav_tours">Экскурсии</a>
+                <a href="#apartments" class="hover:text-vesna-600 transition py-2 flex items-center gap-1" data-i18n="nav_apartments">Квартиры посуточно</a>
+                <a href="#transfers" class="hover:text-vesna-600 transition py-2 flex items-center gap-1" data-i18n="nav_transfers">Трансферы</a>
+                <a href="#fleet" class="hover:text-vesna-600 transition py-2 flex items-center gap-1" data-i18n="nav_fleet">Автопарк</a>
+                <a href="#why-us" class="hover:text-vesna-600 transition py-2 flex items-center gap-1" data-i18n="nav_about">О нас</a>
+                <a href="#reviews" class="hover:text-vesna-600 transition py-2 flex items-center gap-1" data-i18n="nav_reviews">Отзывы</a>
+            </nav>
+
+            <!-- Action Controls: Currency, Lang, My Bookings Cart, Quick CTA -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+                <!-- Live Currency Switcher -->
+                <div class="relative">
+                    <select id="currencySelect" onchange="changeCurrency(this.value)" aria-label="Валюта" class="touch-target appearance-none bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs sm:text-sm font-bold rounded-xl pl-2.5 sm:pl-3 pr-6 sm:pr-7 py-2 sm:py-2.5 cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-vesna-500">
+                        <option value="AMD">🇦🇲 AMD</option>
+                        <option value="RUB" selected>🇷🇺 RUB</option>
+                        <option value="USD">🇺🇸 USD</option>
+                        <option value="EUR">🇪🇺 EUR</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none shrink-0"></i>
+                </div>
+
+                <!-- Live Language Switcher -->
+                <div class="relative">
+                    <select id="langSelect" onchange="changeLanguage(this.value)" aria-label="Язык" class="touch-target appearance-none bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs sm:text-sm font-bold rounded-xl pl-2.5 sm:pl-3 pr-6 sm:pr-7 py-2 sm:py-2.5 cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-vesna-500">
+                        <option value="ru">RU</option>
+                        <option value="en">EN</option>
+                        <option value="am">AM</option>
+                    </select>
+                    <i data-lucide="globe" class="w-3.5 h-3.5 text-slate-500 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none shrink-0"></i>
+                </div>
+
+                <!-- My Bookings Drawer Trigger -->
+                <button onclick="toggleCartDrawer(true)" aria-label="Мои бронирования" class="touch-target relative bg-emerald-50 hover:bg-emerald-100 text-vesna-800 border border-emerald-200/80 px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5 shrink-0">
+                    <i data-lucide="briefcase" class="w-4 h-4 sm:w-5 sm:h-5 text-vesna-600 shrink-0"></i>
+                    <span class="hidden md:inline" data-i18n="btn_my_bookings">Мои брони</span>
+                    <span id="cartCountBadge" class="w-5 h-5 rounded-full bg-vesna-600 text-white text-[11px] flex items-center justify-center font-extrabold shrink-0">0</span>
+                </button>
+
+                <!-- Primary Book Button -->
+                <button onclick="openGeneralBookingModal()" class="touch-target hidden sm:inline-flex items-center gap-2 bg-vesna-600 hover:bg-vesna-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm shadow-vesna-600/20 transition active:scale-95 shrink-0">
+                    <i data-lucide="calendar-check" class="w-4 h-4 shrink-0"></i>
+                    <span data-i18n="btn_contact">Быстрая бронь</span>
+                </button>
+
+                <!-- Mobile Menu Trigger (44x44px min touch target) -->
+                <button onclick="toggleMobileMenu()" class="touch-target xl:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 flex items-center justify-center shrink-0" aria-label="Меню">
+                    <i id="mobileMenuIcon" data-lucide="menu" class="w-6 h-6 shrink-0"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Slide-Down Drawer -->
+        <div id="mobileMenu" class="hidden xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 shadow-xl">
+            <div class="grid grid-cols-1 gap-1">
+                <a href="#tours" onclick="toggleMobileMenu()" class="touch-target flex items-center gap-3 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 font-semibold text-sm text-slate-800">
+                    <i data-lucide="compass" class="w-5 h-5 text-vesna-600 shrink-0"></i>
+                    <span data-i18n="nav_tours">Экскурсии</span>
+                </a>
+                <a href="#apartments" onclick="toggleMobileMenu()" class="touch-target flex items-center gap-3 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 font-semibold text-sm text-slate-800">
+                    <i data-lucide="building-2" class="w-5 h-5 text-vesna-600 shrink-0"></i>
+                    <span data-i18n="nav_apartments">Квартиры посуточно</span>
+                </a>
+                <a href="#transfers" onclick="toggleMobileMenu()" class="touch-target flex items-center gap-3 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 font-semibold text-sm text-slate-800">
+                    <i data-lucide="car-front" class="w-5 h-5 text-vesna-600 shrink-0"></i>
+                    <span data-i18n="nav_transfers">Трансферы</span>
+                </a>
+                <a href="#fleet" onclick="toggleMobileMenu()" class="touch-target flex items-center gap-3 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 font-semibold text-sm text-slate-800">
+                    <i data-lucide="bus" class="w-5 h-5 text-vesna-600 shrink-0"></i>
+                    <span data-i18n="nav_fleet">Автопарк</span>
+                </a>
+                <a href="#why-us" onclick="toggleMobileMenu()" class="touch-target flex items-center gap-3 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 font-semibold text-sm text-slate-800">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-vesna-600 shrink-0"></i>
+                    <span data-i18n="nav_about">О нас</span>
+                </a>
+                <a href="#reviews" onclick="toggleMobileMenu()" class="touch-target flex items-center gap-3 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 font-semibold text-sm text-slate-800">
+                    <i data-lucide="star" class="w-5 h-5 text-vesna-600 shrink-0"></i>
+                    <span data-i18n="nav_reviews">Отзывы</span>
+                </a>
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
+                <button onclick="toggleMobileMenu(); openGeneralBookingModal();" class="touch-target w-full bg-vesna-600 hover:bg-vesna-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm shadow-md">
+                    <i data-lucide="calendar-check" class="w-5 h-5 shrink-0"></i>
+                    <span data-i18n="btn_contact">Быстрая бронь</span>
+                </button>
+                <a href="tel:+37410555777" class="touch-target w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm">
+                    <i data-lucide="phone-call" class="w-4 h-4 text-vesna-600 shrink-0"></i>
+                    <span>+374 (10) 55-57-77</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Multi-Tab Search Engine -->
+    <section class="hero-bg relative pt-8 pb-20 sm:pt-14 sm:pb-28 lg:pt-20 lg:pb-32 px-3 sm:px-4">
+        <div class="max-w-7xl mx-auto text-center text-white">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-xs sm:text-sm font-medium mb-5 shadow-sm max-w-full">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+                <span data-i18n="hero_badge" class="truncate">Лицензированный туроператор №1 по гостеприимству в Ереване</span>
+            </div>
+            <h1 class="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold tracking-tight max-w-4xl mx-auto leading-tight mb-4 sm:mb-5" data-i18n="hero_title">
+                Встречайте весну в сердце Армении с Vesna Travel
+            </h1>
+            <p class="text-sm sm:text-lg lg:text-xl text-emerald-50/90 max-w-3xl mx-auto mb-8 sm:mb-10 font-normal px-1" data-i18n="hero_subtitle">
+                Ежедневные групповые и индивидуальные экскурсии на автобусах бизнес-класса, дизайнерские квартиры в центре Еревана и круглосуточные трансферы.
+            </p>
+
+            <!-- Multi-Tab Search Engine (Hyur Service Responsive Style) -->
+            <div class="max-w-6xl mx-auto bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-7 text-left text-slate-800 border border-slate-100">
+                <!-- Tabs Bar (Stacks cleanly on mobile, horizontal on desktop) -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4 mb-5">
+                    <div class="grid grid-cols-1 sm:flex sm:flex-wrap gap-2 w-full sm:w-auto">
+                        <button type="button" onclick="switchSearchTab('tours')" id="tabBtn-tours" class="touch-target search-tab-btn flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm transition bg-vesna-600 text-white shadow-md shadow-vesna-600/20">
+                            <i data-lucide="compass" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            <span data-i18n="tab_tours">Экскурсии и туры</span>
+                        </button>
+                        <button type="button" onclick="switchSearchTab('apartments')" id="tabBtn-apartments" class="touch-target search-tab-btn flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            <i data-lucide="building-2" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            <span data-i18n="tab_apartments">Квартиры посуточно</span>
+                        </button>
+                        <button type="button" onclick="switchSearchTab('transfers')" id="tabBtn-transfers" class="touch-target search-tab-btn flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            <i data-lucide="car-front" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            <span data-i18n="tab_transfers">Трансферы и Авто</span>
+                        </button>
+                    </div>
+                    <div class="hidden md:flex items-center gap-2 text-xs text-slate-500 font-medium shrink-0">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-vesna-600 shrink-0"></i>
+                        <span>Мгновенное подтверждение • Без скрытых комиссий</span>
+                    </div>
+                </div>
+
+                <!-- Tab 1: Group & Private Tours Search -->
+                <form id="searchPanel-tours" onsubmit="handleWidgetSearch(event, 'tours')" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 items-end">
+                    <div class="lg:col-span-1">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5" data-i18n="lbl_direction">Направление</label>
+                        <select id="tourSearchDest" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="all">Все маршруты Армении</option>
+                            <option value="regular">Гарни — Гегард — Выпечка лаваша</option>
+                            <option value="wine">Хор Вирап — Нораванк — Арени</option>
+                            <option value="regular">Озеро Севан — Дилижан — Агарцин</option>
+                            <option value="mountains">Крылья Татева — Караундж — Шаки</option>
+                            <option value="regular">Гюмри — Черная крепость</option>
+                            <option value="mountains">Восхождение на Арагац и Амберд</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5" data-i18n="lbl_tour_format">Тип экскурсии</label>
+                        <select id="tourSearchType" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="all">Все форматы</option>
+                            <option value="regular">Регулярный групповой</option>
+                            <option value="wine">Винный и гастрономический</option>
+                            <option value="mountains">Горы и активный отдых</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5" data-i18n="lbl_date">Дата выезда</label>
+                        <input type="date" id="tourSearchDate" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5" data-i18n="lbl_guests">Участники</label>
+                        <select id="tourSearchGuests" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="1">1 взрослый</option>
+                            <option value="2" selected>2 взрослых</option>
+                            <option value="3">3 гостя</option>
+                            <option value="4">4 гостя (Семья)</option>
+                            <option value="6">Мини-группа (5–8 чел.)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="touch-target w-full bg-vesna-600 hover:bg-vesna-700 text-white font-bold py-3 px-5 rounded-xl shadow-lg shadow-vesna-600/25 transition flex items-center justify-center gap-2">
+                            <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            <span data-i18n="btn_find_tours">Найти туры</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Tab 2: Daily Apartments Search -->
+                <form id="searchPanel-apartments" onsubmit="handleWidgetSearch(event, 'apartments')" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 items-end">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Локация в центре</label>
+                        <select id="aptSearchDistrict" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="all">Весь Малый Центр (4)</option>
+                            <option value="Northern">Северный проспект</option>
+                            <option value="Republic">Площадь Республики</option>
+                            <option value="Cascade">Каскад / Опера</option>
+                            <option value="Saryan">Ул. Сарьяна (Винный квартал)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Категория жилья</label>
+                        <select id="aptSearchRooms" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="all">Любое кол-во комнат</option>
+                            <option value="studio">Студия (до 2 гостей)</option>
+                            <option value="1br">1 спальня (до 3 гостей)</option>
+                            <option value="2br">2 спальни (до 5 гостей)</option>
+                            <option value="penthouse">Пентхаус с террасой</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Дата заезда</label>
+                        <input type="date" id="aptSearchDate" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Кол-во суток и гостей</label>
+                        <select id="aptSearchNights" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="2">2 суток • 2 гостя</option>
+                            <option value="4" selected>4 суток • 2 гостя</option>
+                            <option value="6">6 суток (-10% скидка)</option>
+                            <option value="10">10 суток (-15% скидка)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="touch-target w-full bg-vesna-600 hover:bg-vesna-700 text-white font-bold py-3 px-5 rounded-xl shadow-lg shadow-vesna-600/25 transition flex items-center justify-center gap-2">
+                            <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            <span data-i18n="btn_find_apts">Показать квартиры</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Tab 3: Transfers Search -->
+                <form id="searchPanel-transfers" onsubmit="handleWidgetSearch(event, 'transfers')" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 items-end">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Откуда</label>
+                        <select id="trSearchFrom" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="Аэропорт Звартноц (EVN)">Аэропорт Звартноц (EVN)</option>
+                            <option value="Ереван (Любой адрес)">Ереван (Любой адрес)</option>
+                            <option value="Тбилиси (Грузия)">Тбилиси (Грузия)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Куда</label>
+                        <select id="trSearchTo" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="Ереван Центр">Ереван Центр</option>
+                            <option value="Цахкадзор / Озеро Севан">Цахкадзор / Озеро Севан</option>
+                            <option value="Дилижан / Иджеван">Дилижан / Иджеван</option>
+                            <option value="Джермук / Татев">Джермук / Татев</option>
+                            <option value="Гюмри">Гюмри</option>
+                            <option value="Тбилиси">Тбилиси</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Класс транспорта</label>
+                        <select id="trSearchClass" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                            <option value="sedan">Седан Комфорт (1–3 пасс.)</option>
+                            <option value="minivan">Минивэн Стандарт (4–6 пасс.)</option>
+                            <option value="vclass">Mercedes V-Class VIP (1–6 пасс.)</option>
+                            <option value="sprinter">Микроавтобус Sprinter (7–18 пасс.)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Дата подачи</label>
+                        <input type="date" id="transferSearchDate" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                    </div>
+                    <div>
+                        <button type="submit" class="touch-target w-full bg-vesna-600 hover:bg-vesna-700 text-white font-bold py-3 px-5 rounded-xl shadow-lg shadow-vesna-600/25 transition flex items-center justify-center gap-2">
+                            <i data-lucide="calculator" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            <span data-i18n="btn_calc_transfer">Рассчитать и заказать</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Metrics Strip -->
+    <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 -mt-10 sm:-mt-12 relative z-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-slate-100 flex items-center gap-3.5">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 text-vesna-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="award" class="w-5 h-5 sm:w-6 sm:h-6 shrink-0"></i>
+                </div>
+                <div class="min-w-0">
+                    <div class="font-extrabold text-slate-900 text-sm sm:text-base truncate">365 дней в году</div>
+                    <p class="text-xs text-slate-500">Гарантированные выезды без отмен</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-slate-100 flex items-center gap-3.5">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="bus" class="w-5 h-5 sm:w-6 sm:h-6 shrink-0"></i>
+                </div>
+                <div class="min-w-0">
+                    <div class="font-extrabold text-slate-900 text-sm sm:text-base truncate">Новые автобусы</div>
+                    <p class="text-xs text-slate-500">Wi-Fi, вода, свежая выпечка в пути</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-slate-100 flex items-center gap-3.5">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="building" class="w-5 h-5 sm:w-6 sm:h-6 shrink-0"></i>
+                </div>
+                <div class="min-w-0">
+                    <div class="font-extrabold text-slate-900 text-sm sm:text-base truncate">Квартиры в центре</div>
+                    <p class="text-xs text-slate-500">Собственный фонд в сердце Еревана</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-slate-100 flex items-center gap-3.5">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="star" class="w-5 h-5 sm:w-6 sm:h-6 shrink-0"></i>
+                </div>
+                <div class="min-w-0">
+                    <div class="font-extrabold text-slate-900 text-sm sm:text-base truncate">4.9 / 5.0 Рейтинг</div>
+                    <p class="text-xs text-slate-500">По 18 400+ проверенным отзывам</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: Interactive 6 Signature Armenia Tours Catalog -->
+    <section id="tours" class="py-14 sm:py-24 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-10 gap-5">
+            <div>
+                <div class="inline-flex items-center gap-2 text-vesna-600 font-bold text-xs uppercase tracking-widest mb-2">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
+                    <span data-i18n="sec_tours_tag">Сборные и индивидуальные маршруты из Еревана</span>
+                </div>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-slate-900" data-i18n="sec_tours_title">Каталог экскурсий и туров по Армении</h2>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap gap-2" id="tourCategoryButtons">
+                <button onclick="filterTours('all')" data-cat="all" class="touch-target tour-filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-vesna-600 text-white shadow-sm transition" data-i18n="filter_all">Все туры (6)</button>
+                <button onclick="filterTours('regular')" data-cat="regular" class="touch-target tour-filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition" data-i18n="filter_regular">Классические</button>
+                <button onclick="filterTours('wine')" data-cat="wine" class="touch-target tour-filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition" data-i18n="filter_wine">Винные и гастро</button>
+                <button onclick="filterTours('mountains')" data-cat="mountains" class="touch-target tour-filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition" data-i18n="filter_mountains">Горы и крепости</button>
+            </div>
+        </div>
+
+        <!-- Tours Cards Grid -->
+        <div id="toursGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </section>
+
+    <!-- SECTION 2: 4 Daily Apartments in Center of Yerevan -->
+    <section id="apartments" class="py-14 sm:py-24 bg-white border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-10 gap-5">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-vesna-600 font-bold text-xs uppercase tracking-widest mb-2">
+                        <i data-lucide="key-round" class="w-4 h-4 shrink-0"></i>
+                        <span data-i18n="sec_apt_tag">Собственное управление • Заселение 24/7</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-4xl font-bold text-slate-900" data-i18n="sec_apt_title">Посуточные квартиры в центре Еревана</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">Северный проспект, Площадь Республики, Каскад и винная улица Сарьяна. При бронировании от 5 суток — скидка 10%.</p>
+                </div>
+
+                <!-- Apartment Category Filter Pills -->
+                <div class="flex flex-wrap gap-2" id="aptFilterButtons">
+                    <button onclick="filterApartments('all')" data-apt="all" class="touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-vesna-600 text-white transition">Все локации (4)</button>
+                    <button onclick="filterApartments('2br')" data-apt="2br" class="touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Северный пр.</button>
+                    <button onclick="filterApartments('studio')" data-apt="studio" class="touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Пл. Республики</button>
+                    <button onclick="filterApartments('penthouse')" data-apt="penthouse" class="touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Каскад</button>
+                    <button onclick="filterApartments('1br')" data-apt="1br" class="touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Ул. Сарьяна</button>
+                </div>
+            </div>
+
+            <!-- Apartments Grid (4 Signature Locations) -->
+            <div id="apartmentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Interactive Transfers Calculator & Full Route Table -->
+    <section id="transfers" class="py-14 sm:py-24 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+            <span class="text-vesna-600 font-bold text-xs uppercase tracking-widest block mb-2" data-i18n="sec_transfer_tag">Индивидуальные трансферы по Армении и Грузии</span>
+            <h2 class="font-serif text-2xl sm:text-4xl font-bold text-slate-900 mb-3" data-i18n="sec_transfer_title">Интерактивный калькулятор трансферов</h2>
+            <p class="text-slate-600 text-xs sm:text-base">
+                Выберите направление и один из 4 классов автомобилей (Sedan Comfort, Minivan Standard, Mercedes V-Class VIP, Minibus Sprinter). Включена встреча с табличкой в аэропорту Звартноц 24/7, бесплатное ожидание и Wi-Fi.
+            </p>
+        </div>
+
+        <!-- Interactive Transfer Calculator Box -->
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/90 p-4 sm:p-8 mb-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+                <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">1. Выберите маршрут</label>
+                        <select id="calcRouteSelect" onchange="recalculateTransferBox()" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold text-slate-800 focus:outline-none focus:border-vesna-600">
+                            <option value="0">Аэропорт Звартноц (EVN) ↔ Ереван (25 мин)</option>
+                            <option value="1">Ереван ↔ Гарни — Гегард (с ожиданием)</option>
+                            <option value="2">Ереван ↔ Озеро Севан / Цахкадзор (55 мин)</option>
+                            <option value="3">Ереван ↔ Дилижан / Монастырь Агарцин (1.5 ч)</option>
+                            <option value="4">Ереван ↔ Хор Вирап — Нораванк — Арени (6 ч)</option>
+                            <option value="5">Ереван ↔ Гюмри (2 ч)</option>
+                            <option value="6">Ереван ↔ Джермук / Татев (3.5 ч)</option>
+                            <option value="7">Ереван ↔ Тбилиси, Грузия (4.5 ч)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">2. Класс автомобиля (4 категории)</label>
+                        <select id="calcVehicleSelect" onchange="recalculateTransferBox()" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold text-slate-800 focus:outline-none focus:border-vesna-600">
+                            <option value="sedan">Sedan Comfort (Toyota Camry, 1–3 пасс.)</option>
+                            <option value="minivan">Minivan Standard (Mercedes Vito, 4–6 пасс.)</option>
+                            <option value="vclass">Mercedes V-Class VIP (Бизнес, 1–6 пасс.)</option>
+                            <option value="sprinter">Minibus Sprinter (Микроавтобус, 7–18 пасс.)</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2 flex flex-wrap items-center gap-2 sm:gap-3 pt-1 text-xs text-slate-600">
+                        <span class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg font-medium"><i data-lucide="user-check" class="w-4 h-4 text-vesna-600 shrink-0"></i> Водитель RU / EN</span>
+                        <span class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg font-medium"><i data-lucide="wifi" class="w-4 h-4 text-vesna-600 shrink-0"></i> Бесплатный 4G Wi-Fi</span>
+                        <span class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg font-medium"><i data-lucide="clock" class="w-4 h-4 text-vesna-600 shrink-0"></i> Бесплатное ожидание при задержке рейса</span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-gradient-to-br from-vesna-800 to-vesna-900 text-white rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-emerald-300 font-semibold block mb-1">Фиксированный тариф за авто</span>
+                        <div id="calcTransferOutputPrice" class="text-3xl sm:text-4xl font-extrabold mb-2">1 680 ₽</div>
+                        <p id="calcTransferSummaryText" class="text-xs text-emerald-100/80 mb-5">Маршрут: Аэропорт Звартноц ↔ Ереван • Sedan Comfort</p>
+                    </div>
+                    <button onclick="bookCalculatedTransfer()" class="touch-target w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3.5 px-5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 shrink-0"></i>
+                        <span>Забронировать этот трансфер</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responsive Transfer Route Table (Desktop Table + Mobile Cards) -->
+        <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden mb-10">
+            <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="table" class="w-4 h-4 sm:w-5 sm:h-5 text-vesna-600 shrink-0"></i>
+                    <span>Таблица тарифов по популярным направлениям (цена за весь автомобиль)</span>
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[640px]">
+                    <thead>
+                        <tr class="bg-slate-100/80 text-slate-600 text-xs uppercase font-bold border-b border-slate-200">
+                            <th class="py-3.5 px-4">Направление</th>
+                            <th class="py-3.5 px-4">Sedan Comfort (1–3)</th>
+                            <th class="py-3.5 px-4">Minivan Standard (4–6)</th>
+                            <th class="py-3.5 px-4">Mercedes V-Class VIP</th>
+                            <th class="py-3.5 px-4">Sprinter (7–18)</th>
+                            <th class="py-3.5 px-4 text-right">Бронь</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transferTableBody" class="divide-y divide-slate-200/70 text-xs sm:text-sm">
+                        <!-- Populated dynamically via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Transfer Cards for Mobile/Tablet Convenience -->
+        <div id="transfersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </section>
+
+    <!-- SECTION 4: Vehicle Fleet (Автопарк Vesna Travel) -->
+    <section id="fleet" class="py-14 sm:py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-4">
+                <div>
+                    <span class="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-2">Безопасность и комфорт на дорогах Армении</span>
+                    <h2 class="font-serif text-2xl sm:text-4xl font-bold" data-i18n="fleet_title">Собственный автопарк Vesna Travel</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-md">
+                    Все транспортные средства проходят ежедневный техосмотр перед выездом, оснащены климат-контролем, микрофонами, холодильниками с водой и Wi-Fi.
+                </p>
+            </div>
+
+            <div id="fleetGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: Why Us & Verified Guest Reviews -->
+    <section id="why-us" class="py-14 sm:py-24 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 items-center">
+            <div class="lg:col-span-5">
+                <span class="text-vesna-600 font-bold text-xs uppercase tracking-widest block mb-2">О компании Vesna Travel</span>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-slate-900 mb-4" data-i18n="why_title">Эталон армянского гостеприимства</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+                    Подобно лучшим европейским и армянским сервисным операторам, мы объединили в одном окне организацию ежедневных экскурсий, управление апартаментами в центре Еревана и собственную транспортную службу.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-vesna-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <i data-lucide="badge-check" class="w-5 h-5 shrink-0"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Билеты и угощения уже включены</h4>
+                            <p class="text-xs text-slate-500">В регулярных турах входные билеты в Гарни, дегустации вин и свежая гата с родниковой водой входят в стоимость.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-vesna-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <i data-lucide="wallet" class="w-5 h-5 shrink-0"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Оплата в любой валюте без предоплаты</h4>
+                            <p class="text-xs text-slate-500">Принимаем карты МИР, Visa, Mastercard, ArCa, а также наличные драмы, рубли, доллары и евро в нашем офисе на Северном проспекте.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reviews" class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-amber-400 text-sm font-bold">★★★★★ 5.0</div>
+                        <span class="text-[11px] text-slate-400">Октябрь 2026</span>
+                    </div>
+                    <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                        «Брали в Vesna Travel три групповые экскурсии (Гарни-Гегард, Хор Вирап-Нораванк и Татев) + квартиру на Северном проспекте. Автобусы чистейшие, гид Армен влюбил нас в историю Армении!»
+                    </p>
+                    <div class="flex items-center gap-3 pt-3 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-vesna-600 text-white font-bold text-xs flex items-center justify-center shrink-0">ЕК</div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">Елена и Константин</div>
+                            <div class="text-[11px] text-slate-400">Москва • Тур + Апартаменты</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-amber-400 text-sm font-bold">★★★★★ 5.0</div>
+                        <span class="text-[11px] text-slate-400">Сентябрь 2026</span>
+                    </div>
+                    <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                        «Рейс в Звартноц задержали на 2 часа ночью, водитель встречал с табличкой с улыбкой, без единой доплаты довез до квартиры у Каскада. Очень удобно считать цены сразу в рублях и драмах на сайте».
+                    </p>
+                    <div class="flex items-center gap-3 pt-3 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-amber-500 text-white font-bold text-xs flex items-center justify-center shrink-0">ДМ</div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">Дмитрий Морозов</div>
+                            <div class="text-[11px] text-slate-400">Санкт-Петербург • Трансфер V-Class</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacts" class="bg-slate-950 text-slate-300 pt-14 pb-24 sm:pb-14 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-12 border-b border-slate-800">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-vesna-600 flex items-center justify-center text-white shrink-0">
+                            <i data-lucide="mountain-snow" class="w-5 h-5 shrink-0"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-white">VESNA TRAVEL</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-5">
+                        Комплексный туроператор и гостиничный сервис в Армении. Ежедневные сборные и индивидуальные туры, собственные квартиры в Ереване и автопарк.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <a href="https://wa.me/37410555777" target="_blank" rel="noopener" class="touch-target px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-vesna-600 text-white text-xs font-semibold transition flex items-center gap-1.5 border border-slate-800">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i> WhatsApp
+                        </a>
+                        <a href="https://t.me/vesnatravel" target="_blank" rel="noopener" class="touch-target px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-vesna-600 text-white text-xs font-semibold transition flex items-center gap-1.5 border border-slate-800">
+                            <i data-lucide="send" class="w-4 h-4 text-sky-400 shrink-0"></i> Telegram
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 text-xs uppercase tracking-wider">6 Фирменных Экскурсий</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#tours" onclick="filterTours('regular')" class="hover:text-emerald-400 transition">Гарни — Гегард с выпечкой лаваша</a></li>
+                        <li><a href="#tours" onclick="filterTours('wine')" class="hover:text-emerald-400 transition">Хор Вирап — Нораванк — Пещера Птиц — Арени</a></li>
+                        <li><a href="#tours" onclick="filterTours('regular')" class="hover:text-emerald-400 transition">Озеро Севан — Дилижан — Агарцин</a></li>
+                        <li><a href="#tours" onclick="filterTours('mountains')" class="hover:text-emerald-400 transition">Крылья Татева и водопад Шаки</a></li>
+                        <li><a href="#tours" onclick="filterTours('regular')" class="hover:text-emerald-400 transition">Гюмри и Черная крепость</a></li>
+                        <li><a href="#tours" onclick="filterTours('mountains')" class="hover:text-emerald-400 transition">Восхождение на Арагац и крепость Амберд</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 text-xs uppercase tracking-wider">Квартиры и Трансферы</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#apartments" onclick="filterApartments('2br')" class="hover:text-emerald-400 transition">Северный проспект (Grand Suite)</a></li>
+                        <li><a href="#apartments" onclick="filterApartments('studio')" class="hover:text-emerald-400 transition">Площадь Республики (Boutique Studio)</a></li>
+                        <li><a href="#apartments" onclick="filterApartments('penthouse')" class="hover:text-emerald-400 transition">Каскад (Ararat View Penthouse)</a></li>
+                        <li><a href="#apartments" onclick="filterApartments('1br')" class="hover:text-emerald-400 transition">Ул. Сарьяна (Wine Quarter Apt)</a></li>
+                        <li><a href="#transfers" class="hover:text-emerald-400 transition">Трансфер Аэропорт Звартноц 24/7</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 text-xs uppercase tracking-wider">Центральный офис</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
+                            <span>Ереван, Северный проспект, 10 (Без выходных 08:30 – 22:00)</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i data-lucide="phone" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                            <a href="tel:+37410555777" class="hover:text-white font-semibold">+374 (10) 55-57-77</a>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i data-lucide="mail" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                            <a href="mailto:booking@vesnatravel.am" class="hover:text-white">booking@vesnatravel.am</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© 2026 Vesna Travel Armenia LLC. Все права защищены.</p>
+                <div class="flex items-center gap-4">
+                    <span>Оплата: МИР • Visa • Mastercard • ArCa • Наличные</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Bottom-Right Quick Messenger Widget (44x44px+ Mobile Optimized) -->
+    <div class="fixed right-3 sm:right-5 safe-bottom-float z-40 flex flex-col items-end gap-2.5">
+        <a href="https://t.me/vesnatravel" target="_blank" rel="noopener" aria-label="Написать в Telegram" class="touch-target w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/30 flex items-center justify-center transition transform hover:scale-105 active:scale-95">
+            <i data-lucide="send" class="w-5 h-5 sm:w-6 sm:h-6 shrink-0"></i>
+        </a>
+        <a href="https://wa.me/37410555777" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" class="touch-target w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 flex items-center justify-center transition transform hover:scale-105 active:scale-95">
+            <i data-lucide="message-circle" class="w-6 h-6 shrink-0"></i>
+        </a>
+    </div>
+
+    <!-- MODAL 1: Detailed Tour Itinerary ("Подробнее") -->
+    <div id="itineraryModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-8 shadow-2xl border border-slate-100 relative my-auto max-h-[92dvh] overflow-y-auto">
+            <button onclick="closeItineraryModal()" class="touch-target absolute top-4 right-4 w-11 h-11 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition" aria-label="Закрыть">
+                <i data-lucide="x" class="w-5 h-5 shrink-0"></i>
+            </button>
+
+            <span id="itinBadge" class="inline-block bg-emerald-100 text-vesna-800 text-xs font-bold px-3 py-1 rounded-full mb-2">Программа экскурсии</span>
+            <h3 id="itinTitle" class="font-serif text-xl sm:text-3xl font-bold text-slate-900 mb-2 pr-10">Название тура</h3>
+            <p id="itinMeta" class="text-xs text-slate-500 font-medium mb-6">Длительность и выезд</p>
+
+            <!-- Hourly Timeline -->
+            <div class="mb-6">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Почасовой маршрут и остановки</h4>
+                <div id="itinTimeline" class="space-y-3 border-l-2 border-vesna-500 pl-4 ml-2">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Included Amenities -->
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70 mb-6">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Что включено в стоимость:</h4>
+                <div id="itinIncluded" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-medium text-slate-700">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-slate-200">
+                <div>
+                    <span class="text-xs text-slate-400 block">Стоимость участия:</span>
+                    <span id="itinPrice" class="text-2xl font-extrabold text-vesna-700">0 ₽</span>
+                </div>
+                <button id="itinBookBtn" class="touch-target bg-vesna-600 hover:bg-vesna-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-vesna-600/25 transition flex items-center justify-center gap-2 text-sm">
+                    <i data-lucide="calendar-check" class="w-4 h-4 shrink-0"></i>
+                    <span>Забронировать место</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Smart Booking Calculator Modal ("Забронировать") -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl border border-slate-100 relative my-auto max-h-[92dvh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="touch-target absolute top-4 right-4 w-11 h-11 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition" aria-label="Закрыть">
+                <i data-lucide="x" class="w-5 h-5 shrink-0"></i>
+            </button>
+
+            <div class="flex items-center gap-2 text-vesna-600 text-xs font-bold uppercase tracking-wider mb-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4 shrink-0"></i>
+                <span>Онлайн-калькулятор бронирования</span>
+            </div>
+            <h3 id="modalItemTitle" class="font-serif text-xl sm:text-2xl font-bold text-slate-900 mb-1 pr-10">Бронирование</h3>
+            <p class="text-xs text-slate-500 mb-5">Добавьте заявку в «Мои бронирования» или отправьте напрямую координатору без предоплаты.</p>
+
+            <form id="bookingForm" onsubmit="submitBookingForm(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Дата заезда / выезда</label>
+                        <input type="date" id="modalDate" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                    </div>
+                    <div>
+                        <label id="modalQtyLabel" class="block text-xs font-bold text-slate-600 mb-1">Количество гостей / суток</label>
+                        <input type="number" id="modalQty" min="1" max="45" value="2" oninput="updateModalTotal()" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold focus:outline-none focus:border-vesna-600">
+                    </div>
+                </div>
+
+                <!-- Promo code field -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Промокод на скидку (Нажмите: <button type="button" class="text-vesna-600 font-extrabold underline" onclick="applyPresetPromo()">VESNA10</button>)</label>
+                    <input type="text" id="modalPromo" oninput="updateModalTotal()" placeholder="Введите VESNA10 для скидки 10%" class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm uppercase font-semibold focus:outline-none focus:border-vesna-600">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Ваше имя</label>
+                        <input type="text" id="modalName" placeholder="Александр" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-vesna-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Телефон (WhatsApp / TG)</label>
+                        <input type="tel" id="modalPhone" placeholder="+7 (999) 000-00-00" required class="touch-target w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-vesna-600">
+                    </div>
+                </div>
+
+                <!-- Dynamic Price Calculation Summary -->
+                <div class="bg-emerald-50/90 border border-emerald-200 rounded-2xl p-4 space-y-1.5">
+                    <div class="flex items-center justify-between text-xs text-slate-600">
+                        <span id="modalPriceBreakdown">Тариф × кол-во</span>
+                        <span id="modalDiscountBadge" class="hidden bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md">Скидка применена</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-emerald-200/60">
+                        <span class="text-xs font-bold text-slate-700">Итого к оплате:</span>
+                        <div id="modalTotalPrice" class="text-2xl font-extrabold text-vesna-700">0 ₽</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="touch-target w-full bg-vesna-600 hover:bg-vesna-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-vesna-600/25 transition flex items-center justify-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 shrink-0"></i>
+                    <span>Подтвердить и добавить в «Мои брони»</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SLIDE-OVER DRAWER: "My Bookings" (Мои бронирования) -->
+    <div id="cartDrawerBackdrop" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer(false)"></div>
+    <aside id="cartDrawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl border-l border-slate-200 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-5 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-vesna-600 text-white flex items-center justify-center shrink-0">
+                    <i data-lucide="briefcase" class="w-5 h-5 shrink-0"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Мои бронирования</h3>
+                    <p class="text-xs text-slate-500">Ваш план поездки в Армению</p>
+                </div>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="touch-target w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900" aria-label="Закрыть">
+                <i data-lucide="x" class="w-5 h-5 shrink-0"></i>
+            </button>
+        </div>
+
+        <!-- Bookings List -->
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
+            <!-- Populated via JS -->
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-5 sm:p-6 border-t border-slate-200 bg-slate-50 space-y-4">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-slate-600">Общая сумма пакета:</span>
+                <span id="cartTotalPrice" class="text-2xl font-extrabold text-vesna-700">0 ₽</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <button onclick="sendOrderToMessenger('whatsapp')" class="touch-target bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+                    <i data-lucide="message-circle" class="w-4 h-4 shrink-0"></i> В WhatsApp
+                </button>
+                <button onclick="sendOrderToMessenger('telegram')" class="touch-target bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+                    <i data-lucide="send" class="w-4 h-4 shrink-0"></i> В Telegram
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Notification Toast -->
+    <div id="toastNotice" class="fixed bottom-5 left-4 right-4 sm:left-auto sm:right-20 z-50 hidden bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-3 sm:max-w-sm">
+        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+        <span id="toastText" class="text-xs sm:text-sm font-medium">Уведомление</span>
+    </div>
+
+    <!-- Application JavaScript -->
+    <script>
+        // Currency Rates relative to AMD (Armenian Dram)
+        const currencyConfig = {
+            AMD: { rate: 1, symbol: '֏', position: 'after' },
+            RUB: { rate: 0.24, symbol: '₽', position: 'after' },
+            USD: { rate: 0.0026, symbol: '$', position: 'before' },
+            EUR: { rate: 0.0024, symbol: '€', position: 'before' }
+        };
+        let currentCurrency = 'RUB';
+        let currentLang = 'ru';
+        let currentCategoryFilter = 'all';
+        let currentApartmentFilter = 'all';
+
+        // Bookings Cart State
+        let bookingsCart = [
+            {
+                id: 101,
+                title: 'Гарни — Гегард с выпечкой лаваша',
+                date: '2026-10-29',
+                qty: 2,
+                unitLabel: 'гостя',
+                totalAMD: 19000
+            }
+        ];
+
+        let activeModalItem = {
+            title: 'Экскурсия',
+            basePriceAMD: 9500,
+            unitType: 'guest'
+        };
+
+        // 1. 6 Signature Armenia Tours Data (with "Подробнее" Hourly Itineraries)
+        const toursData = [
+            {
+                id: 'garni-geghard',
+                category: 'regular',
+                badge: 'Хит №1 • Групповой',
+                title: 'Гарни — Гегард с выпечкой лаваша и Симфония камней',
+                desc: 'Античный языческий храм Солнца Гарни I века, скальный монастырь Гегард (ЮНЕСКО), базальтовое ущелье «Симфония камней» и горячий лаваш из тонира.',
+                duration: '6–7 часов',
+                departure: 'Ежедневно в 10:00',
+                rating: '4.9 (640)',
+                stops: ['Арка Чаренца', 'Монастырь Гегард', 'Симфония камней', 'Храм Гарни', 'Выпечка лаваша'],
+                priceAMD: 9500,
+                image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=900&q=80',
+                timeline: [
+                    '10:00 — Выезд из офиса Vesna Travel (Северный проспект, 10) на туристическом автобусе.',
+                    '10:45 — Фото-стоп у Арки Чаренца с панорамным видом на священный Арарат.',
+                    '11:30 — Экскурсия по пещерному монастырю Гегард (IV–XIII вв., Всемирное наследие ЮНЕСКО).',
+                    '13:15 — Спуск в Азатское ущелье к природному памятнику «Базальтовый орган» (Симфония камней).',
+                    '14:00 — Посещение эллинистического храма Гарни I века и царских бань с античной мозаикой.',
+                    '15:00 — Мастер-класс по выпечке армянского лаваша в тонире с дегустацией домашнего сыра и зелени.',
+                    '16:45 — Возвращение в центр Еревана.'
+                ],
+                included: ['Автобус бизнес-класса с Wi-Fi', 'Лицензированный гид (RU/EN)', 'Входной билет в Гарни и ущелье', 'Вода и свежая армянская гата', 'Мастер-класс по выпечке лаваша']
+            },
+            {
+                id: 'khor-virap-areni',
+                category: 'wine',
+                badge: 'Винный и Гастро',
+                title: 'Хор Вирап — Нораванк — Пещера Птиц — Арени',
+                desc: 'Самый близкий вид на вершину Арарата у монастыря Хор Вирап, древнейшая винодельня мира в Пещере Птиц (Арени-1), красные скалы Нораванка и дегустация вин.',
+                duration: '8–9 часов',
+                departure: 'Ежедневно в 09:00',
+                rating: '5.0 (510)',
+                stops: ['Хор Вирап', 'Пещера Птиц (Арени-1)', 'Винодельня Арени', 'Монастырь Нораванк'],
+                priceAMD: 13500,
+                image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=900&q=80',
+                timeline: [
+                    '09:00 — Выезд из Еревана в Араратскую долину.',
+                    '09:50 — Монастырь Хор Вирап у самого подножия библейской горы Арарат.',
+                    '11:45 — Экскурсия в карстовую Пещеру Птиц (Арени-1), где нашли древнейшую кожаную обувь и винодельню (6100 лет).',
+                    '13:00 — Посещение винодельни в селе Арени с дегустацией 5 сортов гранатового и виноградного вина.',
+                    '14:30 — Монастырь Нораванк XIII века в окружении отвесных терракотовых скал.',
+                    '18:00 — Возвращение в Ереван.'
+                ],
+                included: ['Автобус бизнес-класса с Wi-Fi', 'Аккредитованный гид', 'Дегустация 5 сортов вин в Арени', 'Входной билет в Пещеру Птиц', 'Питьевая вода и свежая выпечка']
+            },
+            {
+                id: 'sevan-dilijan',
+                category: 'regular',
+                badge: 'Озера и Леса',
+                title: 'Севан — Дилижан — Монастыри Агарцин и Гошаванк',
+                desc: 'Высокогорное озеро Севан на высоте 1900 м, монастырь Севанаванк IX века, прогулка по старому ремесленному кварталу Дилижана и лесной монастырь Агарцин.',
+                duration: '8 часов',
+                departure: 'Ежедневно в 09:30',
+                rating: '4.9 (420)',
+                stops: ['Озеро Севан', 'Монастырь Севанаванк', 'Старый Дилижан', 'Монастырь Агарцин'],
+                priceAMD: 11500,
+                image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
+                timeline: [
+                    '09:30 — Отправление из центра Еревана к озеру Севан.',
+                    '10:45 — Подъем на полуостров к монастырю Севанаванк (IX в.), бирюзовые панорамы озера.',
+                    '12:30 — Переезд через Севанский тоннель в изумрудные леса национального парка Дилижан.',
+                    '13:15 — Прогулка по исторической улице Шарамбеяна в Дилижане и памятник героям фильма «Мимино».',
+                    '14:30 — Лесной монастырский комплекс Агарцин (X–XIII вв.) и обед.',
+                    '17:45 — Прибытие в Ереван.'
+                ],
+                included: ['Трансфер на комфортабельном автобусе', 'Сопровождение гида', 'Свежая выпечка и вода в пути', 'Все парковочные сборы']
+            },
+            {
+                id: 'tatev-wings',
+                category: 'mountains',
+                badge: 'Канатная дорога',
+                title: 'Крылья Татева — Водопад Шаки — Караундж',
+                desc: 'Путешествие в горный Сюник: полет на самой длинной реверсивной канатной дороге мира «Крылья Татева» (5.7 км), живописный водопад Шаки и древний Караундж.',
+                duration: '13–14 часов',
+                departure: 'Вт, Чт, Сб, Вс в 07:30',
+                rating: '5.0 (315)',
+                stops: ['Водопад Шаки', 'Караундж', 'Канатная дорога Крылья Татева', 'Монастырь Татев'],
+                priceAMD: 18500,
+                image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80',
+                timeline: [
+                    '07:30 — Выезд из Еревана по живописной южной трассе через перевал Воротан.',
+                    '11:00 — Остановка у бурлящего 18-метрового водопада Шаки.',
+                    '12:30 — Полет над Воротанским ущельем на канатной дороге «Крылья Татева» (Книга рекордов Гиннесса).',
+                    '13:15 — Экскурсия по средневековому университету и монастырю Татев (IX в.).',
+                    '15:30 — Древняя мегалитическая обсерватория Караундж и дегустация вин в Арени.',
+                    '21:00 — Возвращение в Ереван.'
+                ],
+                included: ['Трансфер бизнес-класса', 'Гид-историк', 'Билет на канатную дорогу «Крылья Татева»', 'Вода, кофе и угощения в автобусе']
+            },
+            {
+                id: 'gyumri-tour',
+                category: 'regular',
+                badge: 'Культурная столица',
+                title: 'Гюмри — Черная крепость — Монастырь Аричаванк',
+                desc: 'Аутентичный колорит старого Александрополя (Гюмри), величественная Черная крепость XIX века, монастырь Аричаванк и прогулка по кварталу Кумайри.',
+                duration: '9–10 часов',
+                departure: 'Ср, Пт, Сб, Вс в 09:00',
+                rating: '4.9 (285)',
+                stops: ['Монастырь Аричаванк', 'Черная крепость', 'Старый Гюмри (Кумайри)', 'Площадь Вардананц'],
+                priceAMD: 12500,
+                image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=80',
+                timeline: [
+                    '09:00 — Выезд из Еревана в Ширакскую область.',
+                    '10:30 — Посещение монастыря Аричаванк (VII–XIII вв.) на краю скалистого мыса.',
+                    '12:00 — Осмотр неприступной круглой Черной крепости (Севян Берд) из черного туфа.',
+                    '13:15 — Пешеходная экскурсия по историческому центру Гюмри: улицы из черного и красного туфа, места съемок советской классики, церковь Семь Ран.',
+                    '15:00 — Традиционный гюмрийский обед (кялла или форель).',
+                    '18:30 — Возвращение в Ереван.'
+                ],
+                included: ['Комфортабельный автобус с Wi-Fi', 'Профессиональный гид', 'Вход в Черную крепость', 'Питьевая вода и свежая выпечка']
+            },
+            {
+                id: 'aragats-amberd',
+                category: 'mountains',
+                badge: 'Горы и Крепости',
+                title: 'Восхождение на Арагац, озеро Кари и крепость Амберд',
+                desc: 'Подъем на склоны высочайшей вершины Армении — горы Арагац к альпийскому озеру Кари (3200 м), средневековая крепость Амберд VII века и памятник Алфавиту.',
+                duration: '7–8 часов',
+                departure: 'Пн, Ср, Пт, Вс в 10:00',
+                rating: '4.9 (240)',
+                stops: ['Памятник Алфавиту', 'Крепость Амберд', 'Гора Арагац (Озеро Кари 3200м)', 'Сагмосаванк'],
+                priceAMD: 12000,
+                image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80',
+                timeline: [
+                    '10:00 — Выезд из Еревана к склонам четырехглавого потухшего вулкана Арагац.',
+                    '10:50 — Монастырь Сагмосаванк над глубоким каньоном реки Касах.',
+                    '11:45 — Памятник 39 каменным буквам Армянского алфавита.',
+                    '12:45 — Неприступная средневековая крепость Амберд (2300 м над уровнем моря) и церковь Ваграмашен XI в.',
+                    '14:30 — Подъем к высокогорному озеру Кари (3200 м) на горе Арагац, прогулка и панорамные фото.',
+                    '17:30 — Возвращение в Ереван.'
+                ],
+                included: ['Автобус с климат-контролем и Wi-Fi', 'Профессиональный гид', 'Входной билет в крепость Амберд', 'Вода и угощения']
+            }
+        ];
+
+        // 2. 4 Daily Apartments in Central Yerevan (Northern Ave, Republic Square, Cascade, Saryan St)
+        const apartmentsData = [
+            {
+                id: 'apt-northern',
+                category: '2br',
+                districtKey: 'Northern',
+                title: 'Vesna Grand Suite — Северный проспект',
+                district: 'Северный проспект, 6',
+                specs: '2 спальни • Гостиная • до 5 гостей • 84 м²',
+                amenities: ['Балкон на пешеходный проспект', 'Wi-Fi 300 Мбит', 'Кондиционер', 'Заселение 24/7'],
+                priceAMD: 34000,
+                image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'apt-republic',
+                category: 'studio',
+                districtKey: 'Republic',
+                title: 'Republic Square Boutique Studio',
+                district: 'Площадь Республики (ул. Амиряна, 4)',
+                specs: 'Студия • King-size • до 2 гостей • 44 м²',
+                amenities: ['150 м от Поющих фонтанов', 'Кофемашина Nespresso', 'Smart TV 55"', 'Кухня'],
+                priceAMD: 23000,
+                image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'apt-cascade',
+                category: 'penthouse',
+                districtKey: 'Cascade',
+                title: 'Cascade Ararat View Penthouse',
+                district: 'Комплекс Каскад (ул. Таманяна, 3)',
+                specs: 'Пентхаус • 2 спальни • Терраса • до 6 гостей',
+                amenities: ['Панорамная терраса на Арарат', '2 ванные комнаты', 'Посудомоечная машина', 'VIP сервис'],
+                priceAMD: 48000,
+                image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'apt-saryan',
+                category: '1br',
+                districtKey: 'Saryan',
+                title: 'Saryan Wine Quarter Apartment',
+                district: 'Ул. Мартироса Сарьяна, 16',
+                specs: '1 спальня • Гостиная • до 3 гостей • 58 м²',
+                amenities: ['В центре винной улицы', 'Тихий балкон', 'Стиральная/сушильная машина', '24/7 Check-in'],
+                priceAMD: 26000,
+                image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80'
+            }
+        ];
+
+        // 3. Transfers Matrix Data (4 Vehicle Classes: Sedan Comfort, Minivan Standard, Mercedes V-Class VIP, Minibus Sprinter)
+        const transferRoutesData = [
+            { route: 'Аэропорт Звартноц (EVN) ↔ Ереван', duration: '25 мин • Встреча с табличкой 24/7', sedan: 7000, minivan: 11000, vclass: 16000, sprinter: 22000 },
+            { route: 'Ереван ↔ Гарни — Гегард (с ожиданием)', duration: '4–5 часов • Ожидание у храма и монастыря', sedan: 15000, minivan: 21000, vclass: 28000, sprinter: 36000 },
+            { route: 'Ереван ↔ Озеро Севан / Цахкадзор', duration: '55 мин • Ожидание включено', sedan: 16000, minivan: 22000, vclass: 30000, sprinter: 38000 },
+            { route: 'Ереван ↔ Дилижан / Монастырь Агарцин', duration: '1 ч 30 мин • Живописный маршрут', sedan: 22000, minivan: 29000, vclass: 38000, sprinter: 48000 },
+            { route: 'Ереван ↔ Хор Вирап — Нораванк — Арени', duration: '6 часов • С ожиданием на винодельне', sedan: 28000, minivan: 36000, vclass: 46000, sprinter: 58000 },
+            { route: 'Ереван ↔ Гюмри (Культурная столица)', duration: '2 часа • Комфортная магистраль', sedan: 26000, minivan: 34000, vclass: 44000, sprinter: 54000 },
+            { route: 'Ереван ↔ Джермук / Монастырь Татев', duration: '3.5 часа • Остановки для фото', sedan: 45000, minivan: 58000, vclass: 72000, sprinter: 85000 },
+            { route: 'Ереван ↔ Тбилиси (Грузия)', duration: '4.5 часа • Сопровождение на границе', sedan: 65000, minivan: 82000, vclass: 98000, sprinter: 120000 }
+        ];
+
+        // 4. Vehicle Fleet Data (4 Classes)
+        const fleetData = [
+            {
+                name: 'Sedan Comfort',
+                models: 'Toyota Camry / Hyundai Sonata',
+                capacity: '1–3 пассажира + 3 чемодана',
+                features: ['Двухзонный климат-контроль', 'Wi-Fi и зарядки USB-C', 'Бутилированная вода'],
+                rateAMD: 7000,
+                image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                name: 'Minivan Standard',
+                models: 'Mercedes-Benz Vito / Viano',
+                capacity: '4–6 пассажиров + 6 чемоданов',
+                features: ['Просторный семейный салон', 'Детские кресла бесплатно', '4G Wi-Fi и вода'],
+                rateAMD: 11000,
+                image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                name: 'Mercedes V-Class VIP',
+                models: 'Mercedes-Benz V-Class AMG Line',
+                capacity: '1–6 пассажиров (VIP Бизнес)',
+                features: ['Кожаный салон Наппа', 'Панорамная крыша и столик', 'Холодильник, Wi-Fi, пресса'],
+                rateAMD: 16000,
+                image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                name: 'Minibus Sprinter',
+                models: 'Mercedes-Benz Sprinter Tourist',
+                capacity: '7–18 пассажиров + багаж',
+                features: ['Анатомические откидные кресла', 'Микрофон для гида и ТВ', 'Мощный климат-контроль'],
+                rateAMD: 22000,
+                image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=700&q=80'
+            }
+        ];
+
+        // Multi-language Dictionary
+        const translations = {
+            ru: {
+                top_address: 'Ереван, Северный пр., 10',
+                top_promo: 'Промокод VESNA10 — скидка 10% онлайн!',
+                brand_subtitle: 'Armenia Tours, Apartments & Transfers',
+                nav_tours: 'Экскурсии',
+                nav_apartments: 'Квартиры посуточно',
+                nav_transfers: 'Трансферы',
+                nav_fleet: 'Автопарк',
+                nav_about: 'О нас',
+                nav_reviews: 'Отзывы',
+                btn_my_bookings: 'Мои брони',
+                btn_contact: 'Быстрая бронь',
+                hero_badge: 'Лицензированный туроператор №1 по гостеприимству в Ереване',
+                hero_title: 'Встречайте весну в сердце Армении с Vesna Travel',
+                hero_subtitle: 'Ежедневные групповые и индивидуальные экскурсии на автобусах бизнес-класса, дизайнерские квартиры в центре Еревана и круглосуточные трансферы.',
+                tab_tours: 'Экскурсии и туры',
+                tab_apartments: 'Квартиры посуточно',
+                tab_transfers: 'Трансферы и Авто',
+                btn_find_tours: 'Найти туры',
+                btn_find_apts: 'Показать квартиры',
+                btn_calc_transfer: 'Рассчитать и заказать',
+                sec_tours_tag: 'Сборные и индивидуальные маршруты из Еревана',
+                sec_tours_title: 'Каталог экскурсий и туров по Армении',
+                filter_all: 'Все туры (6)',
+                filter_regular: 'Классические',
+                filter_wine: 'Винные и гастро',
+                filter_mountains: 'Горы и крепости',
+                sec_apt_tag: 'Собственное управление • Заселение 24/7',
+                sec_apt_title: 'Посуточные квартиры в центре Еревана',
+                sec_transfer_tag: 'Индивидуальные трансферы по Армении и Грузии',
+                sec_transfer_title: 'Интерактивный калькулятор трансферов',
+                fleet_title: 'Собственный автопарк Vesna Travel',
+                why_title: 'Эталон армянского гостеприимства',
+                btn_details: 'Подробнее',
+                btn_book: 'Забронировать'
+            },
+            en: {
+                top_address: '10 Northern Ave, Yerevan',
+                top_promo: 'Promo code VESNA10 — 10% OFF online!',
+                brand_subtitle: 'Armenia Tours, Apartments & Transfers',
+                nav_tours: 'Tours',
+                nav_apartments: 'Daily Apartments',
+                nav_transfers: 'Transfers',
+                nav_fleet: 'Vehicle Fleet',
+                nav_about: 'About Us',
+                nav_reviews: 'Reviews',
+                btn_my_bookings: 'My Bookings',
+                btn_contact: 'Quick Book',
+                hero_badge: '#1 Licensed Tour Operator & Hospitality Portal in Yerevan',
+                hero_title: 'Experience Armenia in Full Bloom with Vesna Travel',
+                hero_subtitle: 'Daily regular group and private tours on luxury coaches, boutique apartments in downtown Yerevan, and 24/7 airport transfers.',
+                tab_tours: 'Group & Private Tours',
+                tab_apartments: 'Daily Apartments',
+                tab_transfers: 'Airport Transfers',
+                btn_find_tours: 'Search Tours',
+                btn_find_apts: 'Show Apartments',
+                btn_calc_transfer: 'Calculate & Book',
+                sec_tours_tag: 'Guaranteed Daily Departures from Yerevan',
+                sec_tours_title: 'Signature Armenia Tours Catalog',
+                filter_all: 'All Tours (6)',
+                filter_regular: 'Classic Cultural',
+                filter_wine: 'Gastro & Wine',
+                filter_mountains: 'Mountains & Fortresses',
+                sec_apt_tag: 'Directly Managed • 24/7 Self Check-in',
+                sec_apt_title: 'Daily Apartments in Central Yerevan',
+                sec_transfer_tag: 'Private Chauffeur Service Across Armenia & Georgia',
+                sec_transfer_title: 'Interactive Transfer Route Calculator',
+                fleet_title: 'Our Modern Vehicle Fleet',
+                why_title: 'The Gold Standard of Armenian Hospitality',
+                btn_details: 'Details',
+                btn_book: 'Book Now'
+            },
+            am: {
+                top_address: 'Երևան, Հյուսիսային պող. 10',
+                top_promo: 'VESNA10 պրոմոկոդ՝ 10% զեղչ առցանց:',
+                brand_subtitle: 'Տուրեր, Բնակարաններ և Տրանսֆերներ',
+                nav_tours: 'Էքսկուրսիաներ',
+                nav_apartments: 'Բնակարաններ օրավարձով',
+                nav_transfers: 'Տրանսֆերներ',
+                nav_fleet: 'Ավտոպարկ',
+                nav_about: 'Մեր մասին',
+                nav_reviews: 'Կարծիքներ',
+                btn_my_bookings: 'Ամրագրումներ',
+                btn_contact: 'Ամրագրել',
+                hero_badge: 'Պաշտոնական տուրօպերատոր և հյուրընկալության ծառայություն Երևանում',
+                hero_title: 'Բացահայտեք Հայաստանը Vesna Travel-ի հետ',
+                hero_subtitle: 'Ամենօրյա խմբային և անհատական տուրեր, հարմարավետ բնակարաններ Երևանի կենտրոնում և տրանսֆերներ 24/7:',
+                tab_tours: 'Էքսկուրսիաներ և տուրեր',
+                tab_apartments: 'Բնակարաններ օրավարձով',
+                tab_transfers: 'Տրանսֆերներ',
+                btn_find_tours: 'Գտնել տուրեր',
+                btn_find_apts: 'Ցուցադրել բնակարանները',
+                btn_calc_transfer: 'Հաշվարկել տրանսֆերը',
+                sec_tours_tag: 'Ամենօրյա երաշխավորված մեկնումներ',
+                sec_tours_title: 'Էքսկուրսիաների և տուրերի կատալոգ',
+                filter_all: 'Բոլորը (6)',
+                filter_regular: 'Դասական',
+                filter_wine: 'Գինու և գաստրո',
+                filter_mountains: 'Լեռներ և ամրոցներ',
+                sec_apt_tag: 'Սեփական կառավարում • 24/7 Բնակեցում',
+                sec_apt_title: 'Բնակարաններ օրավարձով Երևանի կենտրոնում',
+                sec_transfer_tag: 'Անհատական տրանսֆերներ Հայաստանում և Վրաստանում',
+                sec_transfer_title: 'Տրանսֆերների առցանց հաշվիչ',
+                fleet_title: 'Vesna Travel-ի սեփական ավտոպարկը',
+                why_title: 'Հայկական հյուրընկալության չափանիշը',
+                btn_details: 'Մանրամասն',
+                btn_book: 'Ամրագրել'
+            }
+        };
+
+        // Format Price Helper
+        function formatPrice(amountAMD) {
+            const cfg = currencyConfig[currentCurrency];
+            const converted = Math.round(amountAMD * cfg.rate);
+            const formattedNum = converted.toLocaleString('ru-RU');
+            return cfg.position === 'before' ? `${cfg.symbol}${formattedNum}` : `${formattedNum} ${cfg.symbol}`;
+        }
+
+        // Render 6 Signature Tours Catalog
+        function renderTours() {
+            const container = document.getElementById('toursGrid');
+            const dict = translations[currentLang] || translations.ru;
+            const filtered = currentCategoryFilter === 'all'
+                ? toursData
+                : toursData.filter(t => t.category === currentCategoryFilter);
+
+            container.innerHTML = filtered.map(tour => {
+                return `
+                <article class="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm card-hover flex flex-col">
+                    <div class="relative h-52 sm:h-56 overflow-hidden">
+                        <img src="${tour.image}" alt="${tour.title}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x500/065f46/ffffff?text=Vesna+Travel'">
+                        <span class="absolute top-3.5 left-3.5 bg-white/95 backdrop-blur-sm text-vesna-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm">
+                            ${tour.badge}
+                        </span>
+                        <div class="absolute bottom-3 right-3 bg-slate-900/85 backdrop-blur-sm text-amber-400 text-xs font-bold px-2.5 py-1 rounded-lg">
+                            ★ ${tour.rating}
+                        </div>
+                    </div>
+                    <div class="p-5 sm:p-6 flex-1 flex flex-col">
+                        <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium mb-2.5">
+                            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-vesna-600 shrink-0"></i> ${tour.duration}</span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-vesna-600 shrink-0"></i> ${tour.departure}</span>
+                        </div>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold text-slate-900 mb-2 leading-snug">${tour.title}</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">${tour.desc}</p>
+
+                        <!-- Key Route Stops Pills -->
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            ${tour.stops.map(s => `<span class="text-[11px] bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-md font-medium">📍 ${s}</span>`).join('')}
+                        </div>
+
+                        <!-- Included Amenities Icons Row -->
+                        <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 py-2.5 border-y border-slate-100 mb-4 mt-auto">
+                            <span class="flex items-center gap-1"><i data-lucide="wifi" class="w-3.5 h-3.5 text-vesna-600 shrink-0"></i> Wi-Fi</span>
+                            <span class="flex items-center gap-1"><i data-lucide="user-check" class="w-3.5 h-3.5 text-vesna-600 shrink-0"></i> Гид</span>
+                            <span class="flex items-center gap-1"><i data-lucide="coffee" class="w-3.5 h-3.5 text-vesna-600 shrink-0"></i> Выпечка</span>
+                            <span class="flex items-center gap-1"><i data-lucide="ticket" class="w-3.5 h-3.5 text-vesna-600 shrink-0"></i> Билеты</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between gap-2 pt-1">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold block">за 1 гостя</span>
+                                <span class="text-xl sm:text-2xl font-extrabold text-slate-900">${formatPrice(tour.priceAMD)}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="openItineraryModal('${tour.id}')" class="touch-target bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3.5 py-2.5 rounded-xl transition flex items-center justify-center">
+                                    ${dict.btn_details}
+                                </button>
+                                <button onclick="openBookingModal('${tour.title.replace(/'/g, "\\'")}', ${tour.priceAMD}, 'guest')" class="touch-target bg-vesna-600 hover:bg-vesna-700 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-sm transition active:scale-95 flex items-center justify-center">
+                                    ${dict.btn_book}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        // Render 4 Daily Apartments Catalog
+        function renderApartments(districtFilter = 'all') {
+            const container = document.getElementById('apartmentsGrid');
+            let filtered = apartmentsData;
+            if (currentApartmentFilter !== 'all') {
+                filtered = filtered.filter(a => a.category === currentApartmentFilter);
+            }
+            if (districtFilter !== 'all') {
+                filtered = filtered.filter(a => a.districtKey === districtFilter);
+            }
+
+            container.innerHTML = filtered.map(apt => `
+                <article class="bg-slate-50 rounded-3xl overflow-hidden border border-slate-200/90 card-hover flex flex-col">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${apt.image}" alt="${apt.title}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x500/065f46/ffffff?text=Yerevan+Apartment'">
+                        <span class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i> ${apt.district}
+                        </span>
+                        <span class="absolute bottom-3 right-3 bg-emerald-600 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md shadow">
+                            -10% от 5 суток
+                        </span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="font-serif font-bold text-base sm:text-lg text-slate-900 mb-1 leading-snug">${apt.title}</h3>
+                        <p class="text-xs text-slate-500 font-semibold mb-3">${apt.specs}</p>
+                        <div class="flex flex-wrap gap-1.5 mb-5 flex-1">
+                            ${apt.amenities.map(a => `<span class="text-[11px] bg-white border border-slate-200 px-2 py-1 rounded-lg text-slate-600 font-medium">✓ ${a}</span>`).join('')}
+                        </div>
+                        <div class="pt-4 border-t border-slate-200 flex items-center justify-between gap-2">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold block">за сутки</span>
+                                <span class="text-lg sm:text-xl font-extrabold text-vesna-700">${formatPrice(apt.priceAMD)}</span>
+                            </div>
+                            <button onclick="openBookingModal('${apt.title.replace(/'/g, "\\'")}', ${apt.priceAMD}, 'night')" class="touch-target bg-slate-900 hover:bg-vesna-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                                Забронировать
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Render Transfer Route Table & Quick Cards (with 4 Vehicle Classes)
+        function renderTransfers() {
+            const tbody = document.getElementById('transferTableBody');
+            if (tbody) {
+                tbody.innerHTML = transferRoutesData.map((tr) => `
+                    <tr class="hover:bg-emerald-50/40 transition">
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-slate-900">${tr.route}</div>
+                            <div class="text-[11px] text-slate-500">${tr.duration}</div>
+                        </td>
+                        <td class="py-3.5 px-4 font-bold text-slate-800">${formatPrice(tr.sedan)}</td>
+                        <td class="py-3.5 px-4 font-bold text-slate-800">${formatPrice(tr.minivan)}</td>
+                        <td class="py-3.5 px-4 font-bold text-vesna-700">${formatPrice(tr.vclass)}</td>
+                        <td class="py-3.5 px-4 font-bold text-slate-800">${formatPrice(tr.sprinter)}</td>
+                        <td class="py-3.5 px-4 text-right">
+                            <button onclick="openBookingModal('Трансфер: ${tr.route}', ${tr.sedan}, 'car')" class="bg-vesna-600 hover:bg-vesna-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition">
+                                Заказать
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            const container = document.getElementById('transfersGrid');
+            container.innerHTML = transferRoutesData.slice(0, 6).map(tr => `
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm hover:border-vesna-500 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-start justify-between gap-2 mb-1.5">
+                            <h3 class="font-bold text-slate-900 text-sm sm:text-base">${tr.route}</h3>
+                            <span class="w-9 h-9 rounded-xl bg-emerald-50 text-vesna-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i>
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">${tr.duration}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-100">
+                        <button onclick="openBookingModal('Трансфер (Sedan Comfort): ${tr.route}', ${tr.sedan}, 'car')" class="touch-target text-left bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-vesna-500 p-2.5 rounded-xl transition">
+                            <span class="text-[11px] font-semibold text-slate-600 block">Sedan Comfort</span>
+                            <span class="text-sm font-extrabold text-vesna-700">${formatPrice(tr.sedan)}</span>
+                        </button>
+                        <button onclick="openBookingModal('Трансфер (Minivan Standard): ${tr.route}', ${tr.minivan}, 'car')" class="touch-target text-left bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-vesna-500 p-2.5 rounded-xl transition">
+                            <span class="text-[11px] font-semibold text-slate-600 block">Minivan (4–6)</span>
+                            <span class="text-sm font-extrabold text-vesna-700">${formatPrice(tr.minivan)}</span>
+                        </button>
+                        <button onclick="openBookingModal('Трансфер (Mercedes V-Class VIP): ${tr.route}', ${tr.vclass}, 'car')" class="touch-target text-left bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-vesna-500 p-2.5 rounded-xl transition">
+                            <span class="text-[11px] font-semibold text-slate-600 block">V-Class VIP</span>
+                            <span class="text-sm font-extrabold text-vesna-700">${formatPrice(tr.vclass)}</span>
+                        </button>
+                        <button onclick="openBookingModal('Трансфер (Minibus Sprinter): ${tr.route}', ${tr.sprinter}, 'car')" class="touch-target text-left bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-vesna-500 p-2.5 rounded-xl transition">
+                            <span class="text-[11px] font-semibold text-slate-600 block">Sprinter (7–18)</span>
+                            <span class="text-sm font-extrabold text-vesna-700">${formatPrice(tr.sprinter)}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Render Interactive Transfer Calculator Output
+        function recalculateTransferBox() {
+            const routeIdx = parseInt(document.getElementById('calcRouteSelect').value) || 0;
+            const vehicleClass = document.getElementById('calcVehicleSelect').value;
+            const routeObj = transferRoutesData[routeIdx] || transferRoutesData[0];
+            const priceAMD = routeObj[vehicleClass] || routeObj.sedan;
+
+            const classNames = {
+                sedan: 'Sedan Comfort (1–3 пасс.)',
+                minivan: 'Minivan Standard (4–6 пасс.)',
+                vclass: 'Mercedes V-Class VIP (1–6 пасс.)',
+                sprinter: 'Minibus Sprinter (7–18 пасс.)'
+            };
+
+            document.getElementById('calcTransferOutputPrice').textContent = formatPrice(priceAMD);
+            document.getElementById('calcTransferSummaryText').textContent = `${routeObj.route} • ${classNames[vehicleClass]}`;
+        }
+
+        function bookCalculatedTransfer() {
+            const routeIdx = parseInt(document.getElementById('calcRouteSelect').value) || 0;
+            const vehicleClass = document.getElementById('calcVehicleSelect').value;
+            const routeObj = transferRoutesData[routeIdx] || transferRoutesData[0];
+            const priceAMD = routeObj[vehicleClass] || routeObj.sedan;
+            openBookingModal(`Трансфер (${vehicleClass.toUpperCase()}): ${routeObj.route}`, priceAMD, 'car');
+        }
+
+        // Render Vehicle Fleet Section
+        function renderFleet() {
+            const container = document.getElementById('fleetGrid');
+            container.innerHTML = fleetData.map(v => `
+                <div class="bg-slate-800/90 border border-slate-700 rounded-3xl overflow-hidden flex flex-col">
+                    <div class="h-44 overflow-hidden relative">
+                        <img src="${v.image}" alt="${v.name}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/700x450/065f46/ffffff?text=Vesna+Fleet'">
+                        <span class="absolute bottom-2.5 left-2.5 bg-slate-950/85 backdrop-blur-sm text-emerald-400 text-[11px] font-bold px-2.5 py-1 rounded-lg">
+                            ${v.capacity}
+                        </span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="font-bold text-white text-base mb-0.5">${v.name}</h3>
+                        <p class="text-xs text-slate-400 mb-3">${v.models}</p>
+                        <ul class="space-y-1 text-xs text-slate-300 mb-5 flex-1">
+                            ${v.features.map(f => `<li class="flex items-center gap-1.5"><span class="text-emerald-400">•</span> ${f}</li>`).join('')}
+                        </ul>
+                        <div class="pt-3 border-t border-slate-700 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block">трансфер от</span>
+                                <span class="text-base font-extrabold text-emerald-400">${formatPrice(v.rateAMD)}</span>
+                            </div>
+                            <button onclick="openBookingModal('Аренда авто: ${v.name}', ${v.rateAMD}, 'car')" class="touch-target bg-vesna-600 hover:bg-vesna-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                                Заказать
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Tours Handler
+        function filterTours(category) {
+            currentCategoryFilter = category;
+            document.querySelectorAll('.tour-filter-btn').forEach(btn => {
+                if (btn.dataset.cat === category) {
+                    btn.className = 'touch-target tour-filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-vesna-600 text-white shadow-sm transition';
+                } else {
+                    btn.className = 'touch-target tour-filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition';
+                }
+            });
+            renderTours();
+        }
+
+        // Filter Apartments Handler
+        function filterApartments(cat, district = 'all') {
+            currentApartmentFilter = cat;
+            document.querySelectorAll('.apt-filter-btn').forEach(btn => {
+                if (btn.dataset.apt === cat) {
+                    btn.className = 'touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-vesna-600 text-white transition';
+                } else {
+                    btn.className = 'touch-target apt-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+                }
+            });
+            renderApartments(district);
+        }
+
+        // Open Detailed Tour Itinerary Modal
+        function openItineraryModal(tourId) {
+            const tour = toursData.find(t => t.id === tourId);
+            if (!tour) return;
+
+            document.getElementById('itinBadge').textContent = tour.badge;
+            document.getElementById('itinTitle').textContent = tour.title;
+            document.getElementById('itinMeta').textContent = `Длительность: ${tour.duration} • Выезд: ${tour.departure}`;
+            document.getElementById('itinPrice').textContent = formatPrice(tour.priceAMD);
+
+            document.getElementById('itinTimeline').innerHTML = tour.timeline.map(step => `
+                <div class="text-xs sm:text-sm text-slate-700 leading-relaxed relative">
+                    <span class="w-2.5 h-2.5 rounded-full bg-vesna-600 absolute -left-[21px] top-1.5"></span>
+                    ${step}
+                </div>
+            `).join('');
+
+            document.getElementById('itinIncluded').innerHTML = tour.included.map(inc => `
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="check" class="w-4 h-4 text-vesna-600 shrink-0"></i>
+                    <span>${inc}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('itinBookBtn').onclick = () => {
+                closeItineraryModal();
+                openBookingModal(tour.title, tour.priceAMD, 'guest');
+            };
+
+            document.getElementById('itineraryModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeItineraryModal() {
+            document.getElementById('itineraryModal').classList.add('hidden');
+        }
+
+        // Currency Switcher
+        function changeCurrency(newCurr) {
+            currentCurrency = newCurr;
+            renderTours();
+            renderApartments();
+            renderTransfers();
+            renderFleet();
+            recalculateTransferBox();
+            updateModalTotal();
+            renderCartDrawer();
+            showToast(`Валюта переключена на ${newCurr}`);
+        }
+
+        // Language Switcher
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const dict = translations[lang] || translations.ru;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+            renderTours();
+            showToast(`Язык интерфейса: ${lang.toUpperCase()}`);
+        }
+
+        // Multi-Tab Search Switcher
+        function switchSearchTab(tabName) {
+            ['tours', 'apartments', 'transfers'].forEach(t => {
+                const panel = document.getElementById(`searchPanel-${t}`);
+                const btn = document.getElementById(`tabBtn-${t}`);
+                if (t === tabName) {
+                    panel.classList.remove('hidden');
+                    panel.classList.add('grid');
+                    btn.className = 'touch-target search-tab-btn flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm transition bg-vesna-600 text-white shadow-md shadow-vesna-600/20';
+                } else {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('grid');
+                    btn.className = 'touch-target search-tab-btn flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm transition bg-slate-100 text-slate-600 hover:bg-slate-200';
+                }
+            });
+        }
+
+        // Handle Hero Search Submissions
+        function handleWidgetSearch(event, type) {
+            event.preventDefault();
+            if (type === 'tours') {
+                const selectedType = document.getElementById('tourSearchType').value;
+                filterTours(selectedType);
+                document.getElementById('tours').scrollIntoView({ behavior: 'smooth' });
+                showToast('Подобраны экскурсии по вашим параметрам');
+            } else if (type === 'apartments') {
+                const rooms = document.getElementById('aptSearchRooms').value;
+                const district = document.getElementById('aptSearchDistrict').value;
+                filterApartments(rooms, district);
+                document.getElementById('apartments').scrollIntoView({ behavior: 'smooth' });
+                showToast('Показаны доступные квартиры в центре Еревана');
+            } else if (type === 'transfers') {
+                const from = document.getElementById('trSearchFrom').value;
+                const to = document.getElementById('trSearchTo').value;
+                const vClass = document.getElementById('trSearchClass').value;
+                const baseRates = { sedan: 12000, minivan: 18000, vclass: 26000, sprinter: 35000 };
+                openBookingModal(`Трансфер (${vClass.toUpperCase()}): ${from} → ${to}`, baseRates[vClass] || 12000, 'car');
+            }
+        }
+
+        // Smart Booking Calculator Modal Logic
+        function openBookingModal(title, priceAMD, unitType) {
+            activeModalItem = { title, basePriceAMD: priceAMD, unitType };
+            document.getElementById('modalItemTitle').textContent = title;
+
+            const qtyLabel = document.getElementById('modalQtyLabel');
+            const qtyInput = document.getElementById('modalQty');
+
+            if (unitType === 'guest') {
+                qtyLabel.textContent = 'Количество гостей';
+                qtyInput.value = 2;
+            } else if (unitType === 'night') {
+                qtyLabel.textContent = 'Количество суток (от 5 суток -10%)';
+                qtyInput.value = 4;
+            } else {
+                qtyLabel.textContent = 'Количество авто / групп';
+                qtyInput.value = 1;
+            }
+
+            updateModalTotal();
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function openGeneralBookingModal() {
+            openBookingModal('Индивидуальный пакет: Экскурсии + Проживание', 11500, 'guest');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function applyPresetPromo() {
+            document.getElementById('modalPromo').value = 'VESNA10';
+            updateModalTotal();
+            showToast('Промокод VESNA10 (-10%) применён!');
+        }
+
+        function calculateCurrentModalAMD() {
+            const qty = Math.max(1, parseInt(document.getElementById('modalQty').value) || 1);
+            const promo = (document.getElementById('modalPromo').value || '').trim().toUpperCase();
+            let rawAMD = activeModalItem.basePriceAMD * qty;
+            let discountPercent = 0;
+
+            if (activeModalItem.unitType === 'night' && qty >= 5) {
+                discountPercent += 10;
+            }
+            if (promo === 'VESNA10' || promo === 'ARMENIA') {
+                discountPercent += 10;
+            }
+
+            const finalAMD = Math.round(rawAMD * (1 - discountPercent / 100));
+            return { qty, finalAMD, discountPercent };
+        }
+
+        function updateModalTotal() {
+            const { qty, finalAMD, discountPercent } = calculateCurrentModalAMD();
+            document.getElementById('modalTotalPrice').textContent = formatPrice(finalAMD);
+
+            const unitWord = activeModalItem.unitType === 'night'
+                ? 'суток'
+                : (activeModalItem.unitType === 'car' ? 'авто' : 'гостей');
+            document.getElementById('modalPriceBreakdown').textContent = `${formatPrice(activeModalItem.basePriceAMD)} × ${qty} ${unitWord}`;
+
+            const discBadge = document.getElementById('modalDiscountBadge');
+            if (discountPercent > 0) {
+                discBadge.textContent = `Скидка -${discountPercent}%`;
+                discBadge.classList.remove('hidden');
+            } else {
+                discBadge.classList.add('hidden');
+            }
+        }
+
+        function submitBookingForm(e) {
+            e.preventDefault();
+            const date = document.getElementById('modalDate').value;
+            const { qty, finalAMD } = calculateCurrentModalAMD();
+            const unitLabel = activeModalItem.unitType === 'night'
+                ? 'суток'
+                : (activeModalItem.unitType === 'car' ? 'авто' : 'гостя');
+
+            bookingsCart.push({
+                id: Date.now(),
+                title: activeModalItem.title,
+                date,
+                qty,
+                unitLabel,
+                totalAMD: finalAMD
+            });
+
+            closeBookingModal();
+            renderCartDrawer();
+            toggleCartDrawer(true);
+            showToast('Заявка добавлена в «Мои бронирования»!');
+        }
+
+        // Slide-over Cart Drawer Logic
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartDrawerBackdrop');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                drawer.classList.remove('translate-x-full');
+                renderCartDrawer();
+            } else {
+                backdrop.classList.add('hidden');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function removeCartItem(id) {
+            bookingsCart = bookingsCart.filter(item => item.id !== id);
+            renderCartDrawer();
+        }
+
+        function renderCartDrawer() {
+            const badge = document.getElementById('cartCountBadge');
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotalPrice');
+
+            badge.textContent = bookingsCart.length;
+
+            if (bookingsCart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i data-lucide="calendar-x" class="w-12 h-12 mx-auto mb-3 stroke-1 shrink-0"></i>
+                        <p class="text-sm font-medium text-slate-600">Список бронирований пуст</p>
+                        <p class="text-xs mt-1">Выберите экскурсию, квартиру или трансфер на сайте.</p>
+                    </div>
+                `;
+                totalEl.textContent = formatPrice(0);
+                lucide.createIcons();
+                return;
+            }
+
+            let sumAMD = 0;
+            container.innerHTML = bookingsCart.map(item => {
+                sumAMD += item.totalAMD;
+                return `
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 relative">
+                        <button onclick="removeCartItem(${item.id})" class="touch-target absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-rose-600 transition" title="Удалить">
+                            <i data-lucide="trash-2" class="w-4 h-4 shrink-0"></i>
+                        </button>
+                        <h4 class="font-bold text-slate-900 text-sm pr-8 mb-1">${item.title}</h4>
+                        <div class="flex items-center justify-between text-xs text-slate-500 mt-2 pt-2 border-t border-slate-200/70">
+                            <span>📅 ${item.date} • ${item.qty} ${item.unitLabel}</span>
+                            <span class="font-extrabold text-vesna-700 text-sm">${formatPrice(item.totalAMD)}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.textContent = formatPrice(sumAMD);
+            lucide.createIcons();
+        }
+
+        function sendOrderToMessenger(platform) {
+            if (bookingsCart.length === 0) {
+                showToast('Сначала добавьте услугу в бронирования');
+                return;
+            }
+            const lines = bookingsCart.map((b, i) => `${i + 1}. ${b.title} (${b.date}, ${b.qty} ${b.unitLabel}) — ${formatPrice(b.totalAMD)}`);
+            const totalText = document.getElementById('cartTotalPrice').textContent;
+            const text = encodeURIComponent(`Здравствуйте, Vesna Travel! Хочу подтвердить бронирование:\n\n${lines.join('\n')}\n\nИтого: ${totalText}`);
+
+            if (platform === 'whatsapp') {
+                window.open(`https://wa.me/37410555777?text=${text}`, '_blank');
+            } else {
+                window.open(`https://t.me/vesnatravel`, '_blank');
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Toast Notification
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById('toastNotice');
+            document.getElementById('toastText').textContent = message;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3200);
+        }
+
+        // Init Application on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const isoDate = tomorrow.toISOString().split('T')[0];
+
+            ['tourSearchDate', 'aptSearchDate', 'transferSearchDate', 'modalDate'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = isoDate;
+            });
+
+            renderTours();
+            renderApartments();
+            renderTransfers();
+            renderFleet();
+            recalculateTransferBox();
+            renderCartDrawer();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
